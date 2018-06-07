@@ -23,9 +23,6 @@ var allFeeds = [
     }
 ];
 
-
-
-
 /* This function starts up our application. The Google Feed
  * Reader API is loaded asynchonously and will then call this
  * function when the API is loaded.
@@ -102,10 +99,6 @@ $(function() {
         feedId = 0,
         menuIcon = $('.menu-icon-link');
 
-
-      
-
-
     /* Loop through all of our feeds, assigning an id property to
      * each of the feeds based upon its index within the array.
      * Then parse that feed against the feedItemTemplate (created
@@ -137,4 +130,5 @@ $(function() {
     menuIcon.on('click', function() {
         $('body').toggleClass('menu-hidden');
     });
+  
 }());
