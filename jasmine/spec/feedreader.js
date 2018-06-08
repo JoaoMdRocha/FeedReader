@@ -105,65 +105,47 @@ $(function() {
     });
 
 
-    describe('Initial Entries', function(){
+    describe('Initial Entries', function() {
+        /* *
+         * Checks for at least one single .entry element within the
+         * feed container after the loadFeed function completes.
+         */
+        beforeEach(function(done) {
+            loadFeed(0, done);
+        });
+
+        it('should have an .entry element', function() {
+            var feedLen = $('.feed .entry').length;
+            expect(feedLen).toBeGreaterThan(0);
+        });
+    });
 
 
 
-       var container = $('.feed'),
-           entryEl = $('.entry')
+    describe('New Feed selection', function() {
+    var contentA, contentB;
 
-           beforeEach(function(done)  {
-            loadFeed(0, function(){
-            done();
+    beforeEach(function(done) {
+        // first asnyc call
+        loadFeed(0, function() {
+            // store contentA value
+            contentA = document.querySelector('.feed').innerHTML;
+            // second asnyc call
+            // only happens once first loadFeed function has returned
+            loadFeed(1, function() {
+                // store contentB value
+                contentB = document.querySelector('.feed').innerHTML;
+                done();
             });
-          });
+
+        })
+    });
 
 
-        /*Write a test that ensures when the loadFeed
-       * function is called and completes its work, there is at least
-       * a single .entry element within the .feed container.
-       * Remember, loadFeed() is asynchronous so this test will require
-       * the use of Jasmine's beforeEach and asynchronous done() function.
-       */
-      it('ensures there is an .entry element in the .feed container', function(done){
-
-
-
-        expect($('.entry').length).toBeGreaterThan(0);
+    it('ensures the content changes when feed is loaded', function(done) {
+        expect(contentA !== contentB).toBe(true);
         done();
-
-      });
-
     });
-
-    describe('New Feed selection',function(){
-
-
-
-      //saved the content before and after the loadFeed function reload in a variable and compared the two.
-     beforeEach(function(done)  {
-      loadFeed(0, function(){
-        contentA = document.querySelector('.feed').innerHTML;
-      });
-
-      loadFeed(1, function(){
-        contentB = document.querySelector('.feed').innerHTML;
-        done();
-      });
-    });
-
-    /* Write a test that ensures when a new feed is loaded
-       * by the loadFeed function that the content actually changes.
-       * Remember, loadFeed() is asynchronous.
-       */
-    it('ensures the content changes when feed is loaded',function(done){
-
-      expect(contentA !== contentB).toBe(true);
-      done();
-
-    });
-
-
-    });
+  });
 
 }());
